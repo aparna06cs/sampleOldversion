@@ -128,7 +128,7 @@ public class CartController {
 	
 	@GetMapping("cartsuccessFromService")
     public String cartSuccessmethodfromService() {
-        System.out.println("the controoler class config map 2 for 1.5- from contr >"+cartSucess1);
+        System.out.println("Hello "+cartService.getcartMessage());
         return cartService.getcartMessage();
     }
 	

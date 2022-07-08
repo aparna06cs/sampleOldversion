@@ -1,0 +1,37 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: configmap-oldversionpoc
+spec:
+  selector:
+    app: configmap-oldversionpoc
+  ports:
+    - protocol: TCP
+      port: 8080
+      nodePort: 30083
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: configmap-oldversionpoc
+spec:
+  selector:
+    matchLabels:
+      app: configmap-oldversionpoc
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: configmap-oldversionpoc
+    spec:
+      containers:
+        - name: configmap-poc
+          image: gcr.io/t-operative-348503/configmap-oldversionpoc:v14
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          env:
+           - name: SPRING_PROFILES_ACTIVE
+             value: "dev"
+         

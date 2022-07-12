@@ -45,6 +45,9 @@ public class CartController {
 	@Value("${failure1:property from spring boot local for 1.5}")
 	private String failure1;
 	
+	@Value("${endpointsMap.categoryBreadcrumb}")
+	private String endpointUrl;
+	
 	/*
 	 * @GetMapping("conf/cartsuccess") public String cartSuccessmethod() {
 	 * System.out.println("the controoler class config map 2 for 1.5->"+cartconf.
@@ -131,5 +134,12 @@ public class CartController {
         System.out.println("Hello "+cartService.getcartMessage());
         return cartService.getcartMessage();
     }
+	
+	@GetMapping("endpointUrl")
+    public String endpointUrl() {
+        System.out.println("Hello endpointUrl "+endpointUrl);
+        return endpointUrl;
+    }
+	
 	
 }

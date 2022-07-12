@@ -4,7 +4,9 @@ spring:
       config:
         enabled: true
         sources:
-          - namespace: default
+          - namespace: dev2
+            name: configmap-config-common-dev2
+          - namespace: dev2
             name: configmap-cart
       reload:
         enabled: true

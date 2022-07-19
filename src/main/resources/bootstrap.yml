@@ -6,7 +6,7 @@ spring:
         sources:
           - namespace: dev2
             name: configmap-config-common-dev2
-          - namespace: dev2
+          - namespace: default
             name: configmap-cart
       reload:
         enabled: true

@@ -3,11 +3,11 @@ spring:
     kubernetes:
       config:
         enabled: true
+        namespace: default
         sources:
           - namespace: dev2
             name: configmap-config-common-dev2
-          - namespace: default
-            name: configmap-cart
+          - name: configmap-cart
       reload:
         enabled: true
         mode: event

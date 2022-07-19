@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sampleOldversion.demo.service.CartService;
 
-@RefreshScope
 @RequestMapping("/cart")
 @RestController
 public class CartController {

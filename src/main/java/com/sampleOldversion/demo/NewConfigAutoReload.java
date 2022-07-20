@@ -66,7 +66,7 @@ public class NewConfigAutoReload {
 						secretsPropertySourceLocator);
 			case EVENT:
 				System.out.println("Any event occured");
-				return new EventBasedConfigurationChangeDetector(environment, properties,
+				return new CustomEventBasedConfigurationChangeDetector(environment, properties,
 						kubernetesClient, strategy, configMapPropertySourceLocator,
 						secretsPropertySourceLocator);
 			}

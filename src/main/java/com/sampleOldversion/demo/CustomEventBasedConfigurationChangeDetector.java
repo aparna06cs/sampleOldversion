@@ -44,7 +44,7 @@ public class CustomEventBasedConfigurationChangeDetector extends ConfigurationCh
 	@PostConstruct
 	public void watch() {
 		boolean activated = false;
-
+		log.info("Monitoring of the configMap is enabled by default 12345");
 		if (properties.isMonitoringConfigMaps()) {
 			log.info("Monitoring of the configMap is enabled by default");
 			try {
@@ -56,12 +56,13 @@ public class CustomEventBasedConfigurationChangeDetector extends ConfigurationCh
 							@Override
 							public void eventReceived(Action action,
 									ConfigMap configMap) {
-								log.info("Event Received :::"+action+"configMap :: details:::"+configMap.getData().getOrDefault("wcs.endpoint.livehost", "notfound"));
+								log.info("Event Received :::"+action);
 								onEvent(configMap);
 							}
 
 							@Override
 							public void onClose(KubernetesClientException e) {
+								log.info("closing event"+e.getStackTrace());
 							}
 						}));
 				activated = true;

@@ -14,7 +14,6 @@ import org.springframework.cloud.kubernetes.config.SecretsPropertySourceLocator;
 import org.springframework.cloud.kubernetes.config.reload.ConfigReloadProperties;
 import org.springframework.cloud.kubernetes.config.reload.ConfigurationChangeDetector;
 import org.springframework.cloud.kubernetes.config.reload.ConfigurationUpdateStrategy;
-import org.springframework.cloud.kubernetes.config.reload.EventBasedConfigurationChangeDetector;
 import org.springframework.cloud.kubernetes.config.reload.PollingConfigurationChangeDetector;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -61,7 +60,8 @@ public class NewConfigAutoReload {
 				ConfigReloadProperties properties, ConfigurationUpdateStrategy strategy) {
 			switch (properties.getMode()) {
 			case POLLING:
-				return new PollingConfigurationChangeDetector(environment, properties,
+				System.out.println("Polling reload is triggered event occured");
+				return new CustomPollingConfigurationChangeDetector(environment, properties,
 						kubernetesClient, strategy, configMapPropertySourceLocator,
 						secretsPropertySourceLocator);
 			case EVENT:

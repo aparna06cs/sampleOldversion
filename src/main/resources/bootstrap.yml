@@ -10,6 +10,6 @@ spring:
             name: configmap-cart
       reload:
         enabled: true
-        mode: event
+        mode: polling
         strategy: refresh
 endpoints:  restart:    enabled: true

@@ -10,3 +10,5 @@ management:
         include: info,refresh,keepalive,health,env,beans
   security:
     enabled: false
+endpointsMap:
+   categoryBreadcrumb: 12334343

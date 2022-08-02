@@ -25,10 +25,10 @@ public class CartController {
 	private String endpointUrl;
 	
 	
-	@GetMapping("cartsuccessFromService")
+	@GetMapping("planogram")
     public String cartSuccessmethodfromService() {
-        System.out.println("Hello "+cartService.getcartMessage());
-        return cartService.getcartMessage();
+        System.out.println("Hello "+cartService.getPlanogram());
+        return cartService.getPlanogram();
     }
 	
 	@GetMapping("endpointUrl")

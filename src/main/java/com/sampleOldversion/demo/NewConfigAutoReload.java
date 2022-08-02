@@ -14,6 +14,7 @@ import org.springframework.cloud.kubernetes.config.SecretsPropertySourceLocator;
 import org.springframework.cloud.kubernetes.config.reload.ConfigReloadProperties;
 import org.springframework.cloud.kubernetes.config.reload.ConfigurationChangeDetector;
 import org.springframework.cloud.kubernetes.config.reload.ConfigurationUpdateStrategy;
+import org.springframework.cloud.kubernetes.config.reload.EventBasedConfigurationChangeDetector;
 import org.springframework.cloud.kubernetes.config.reload.PollingConfigurationChangeDetector;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -26,8 +27,7 @@ import io.fabric8.kubernetes.client.KubernetesClient;
 
 @Configuration
 @ConditionalOnProperty(value = "spring.cloud.kubernetes.config.enabled", matchIfMissing = true)
-@AutoConfigureAfter({
-		RefreshEndpointAutoConfiguration.class, RefreshAutoConfiguration.class })
+@AutoConfigureAfter({ RefreshEndpointAutoConfiguration.class, RefreshAutoConfiguration.class })
 @EnableConfigurationProperties(ConfigReloadProperties.class)
 public class NewConfigAutoReload {
 
@@ -56,22 +56,33 @@ public class NewConfigAutoReload {
 		 */
 		@Bean
 		@ConditionalOnMissingBean
-		public ConfigurationChangeDetector propertyChangeWatcher(
-				ConfigReloadProperties properties, ConfigurationUpdateStrategy strategy) {
+		public ConfigurationChangeDetector propertyChangeWatcher(ConfigReloadProperties properties,
+				ConfigurationUpdateStrategy strategy) {
 			switch (properties.getMode()) {
 			case POLLING:
 				System.out.println("Polling reload is triggered event occured");
-				return new CustomPollingConfigurationChangeDetector(environment, properties,
-						kubernetesClient, strategy, configMapPropertySourceLocator,
-						secretsPropertySourceLocator);
+				return new PollingConfigurationChangeDetector(environment, properties, kubernetesClient, strategy,
+						configMapPropertySourceLocator, secretsPropertySourceLocator);
 			case EVENT:
 				System.out.println("Any event occured");
-				return new CustomEventBasedConfigurationChangeDetector(environment, properties,
-						kubernetesClient, strategy, configMapPropertySourceLocator,
-						secretsPropertySourceLocator);
+				return new EventBasedConfigurationChangeDetector(environment, properties, kubernetesClient,
+						strategy, configMapPropertySourceLocator, secretsPropertySourceLocator);
 			}
-			throw new IllegalStateException(
-					"Unsupported configuration reload mode: " + properties.getMode());
+			throw new IllegalStateException("Unsupported configuration reload mode: " + properties.getMode());
+		}
+
+		/**
+		 * This is the fall back method if for any issue websocket connection is closed and not able to trigger the Event
+		 * Provides a bean that listen to configuration changes and fire a reload.
+		 */
+		@Bean
+		@ConditionalOnMissingBean
+		@ConditionalOnProperty(value = "polling.fallback.enabled", matchIfMissing = false)
+		public CustomChangeDetector propertyChangeWatcherExtForPollingStrategy(ConfigReloadProperties properties,
+				ConfigurationUpdateStrategy strategy) {
+			return new ExtPollingConfigurationChangeDetetor(environment, properties, kubernetesClient, strategy,
+					configMapPropertySourceLocator, secretsPropertySourceLocator);
+
 		}
 
 		/**
@@ -79,26 +90,20 @@ public class NewConfigAutoReload {
 		 */
 		@Bean
 		@ConditionalOnMissingBean
-		public ConfigurationUpdateStrategy configurationUpdateStrategy(
-				ConfigReloadProperties properties, ConfigurableApplicationContext ctx,
-				RestartEndpoint restarter, ContextRefresher refresher) {
+		public ConfigurationUpdateStrategy configurationUpdateStrategy(ConfigReloadProperties properties,
+				ConfigurableApplicationContext ctx, RestartEndpoint restarter, ContextRefresher refresher) {
 			switch (properties.getStrategy()) {
 			case RESTART_CONTEXT:
-				return new ConfigurationUpdateStrategy(properties.getStrategy().name(),
-						restarter::restart);
+				return new ConfigurationUpdateStrategy(properties.getStrategy().name(), restarter::restart);
 			case REFRESH:
 				System.out.println("Refresh starting");
-				return new ConfigurationUpdateStrategy(properties.getStrategy().name(),
-						refresher::refresh);
+				return new ConfigurationUpdateStrategy(properties.getStrategy().name(), refresher::refresh);
 			case SHUTDOWN:
-				return new ConfigurationUpdateStrategy(properties.getStrategy().name(),
-						ctx::close);
+				return new ConfigurationUpdateStrategy(properties.getStrategy().name(), ctx::close);
 			}
-			throw new IllegalStateException("Unsupported configuration update strategy: "
-					+ properties.getStrategy());
+			throw new IllegalStateException("Unsupported configuration update strategy: " + properties.getStrategy());
 		}
 
 	}
-
 
 }

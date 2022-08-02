@@ -37,7 +37,6 @@
     <artifactId>spring-cloud-starter-kubernetes-config</artifactId>
      <version>1.0.0.RELEASE</version>
       </dependency>
-      <!-- https://mvnrepository.com/artifact/io.fabric8/kubernetes-client -->
 		<dependency>
 		    <groupId>io.fabric8</groupId>
 		    <artifactId>kubernetes-client</artifactId>

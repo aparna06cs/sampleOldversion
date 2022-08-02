@@ -29,6 +29,8 @@ public class CustomEventBasedConfigurationChangeDetector extends ConfigurationCh
 	private SecretsPropertySourceLocator secretsPropertySourceLocator;
 
 	private Map<String, Watch> watches;
+	
+	private AbstractEnvironment environment;
 
 	public CustomEventBasedConfigurationChangeDetector(AbstractEnvironment environment,
 			ConfigReloadProperties properties, KubernetesClient kubernetesClient,
@@ -39,6 +41,7 @@ public class CustomEventBasedConfigurationChangeDetector extends ConfigurationCh
 		log.info("Constructor intiated");
 		this.configMapPropertySourceLocator = configMapPropertySourceLocator;
 		this.secretsPropertySourceLocator = secretsPropertySourceLocator;
+		this.environment=environment;
 		this.watches = new HashMap<>();
 	}
 	@PostConstruct
@@ -62,7 +65,7 @@ public class CustomEventBasedConfigurationChangeDetector extends ConfigurationCh
 
 							@Override
 							public void onClose(KubernetesClientException e) {
-								log.info("closing event"+e.getStackTrace());
+								log.info("KubernetesClient Websocket connect closed"); 
 							}
 						}));
 				activated = true;

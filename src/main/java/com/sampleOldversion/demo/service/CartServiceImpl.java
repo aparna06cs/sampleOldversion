@@ -8,12 +8,12 @@ import org.springframework.stereotype.Component;
 @RefreshScope
 public class CartServiceImpl implements CartService {
 
-	@Value("${cart.success}")
-	private String cartMessage;
+	@Value("${planogram.api.endpoint}")
+	private String planogram;
 	
-	public String getcartMessage() {
+	public String getPlanogram() {
 		System.out.println("The cart message from service");
-		return cartMessage;
+		return planogram;
 		
 	}
 }

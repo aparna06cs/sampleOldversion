@@ -4,12 +4,20 @@ spring:
       config:
         enabled: true
         sources:
-          - namespace: dev2
-            name: configmap-config-common-dev2
-          - namespace: dev2
-            name: configmap-cart
+          - namespace: ${SPRING.PROFILES.ACTIVE}
+            name: configmap-application-common
+          - namespace: ${SPRING.PROFILES.ACTIVE}
+            name: configmap-application-${SPRING.PROFILES.ACTIVE}
+          - namespace: ${SPRING.PROFILES.ACTIVE}
+            name: configmap-coreservices-${SPRING.PROFILES.ACTIVE}
       reload:
         enabled: true
-        mode: polling
+        mode: event
         strategy: refresh
 endpoints:  restart:    enabled: true
+polling:
+   fallback:
+      enabled: true
+   reload:
+      interval: 3000
+

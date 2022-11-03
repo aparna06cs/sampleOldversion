@@ -8,8 +8,10 @@ spec:
   ports:
     - protocol: TCP
       port: 8080
-      nodePort: 30083
-  type: NodePort
+      targetPort: 8080
+  selector:
+    app: configmap-oldversionpoc
+  type: ClusterIP
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -26,7 +28,7 @@ spec:
         app: configmap-oldversionpoc
     spec:
       containers:
-        - name: configmap-poc
+        - name: configmap-oldversionpoc
           image: gcr.io/t-operative-348503/configmap-oldversionpoc:v14
           imagePullPolicy: IfNotPresent
           ports:

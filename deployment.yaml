@@ -38,7 +38,4 @@ spec:
              value: "dev2"
            - name: wcs.endpoint.livehost
              value: "dev2"
-          envFrom:
-           - secretRef:
-              name: secrets-test
          

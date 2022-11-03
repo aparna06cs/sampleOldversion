@@ -29,12 +29,14 @@ spec:
     spec:
       containers:
         - name: configmap-oldversionpoc
-          image: gcr.io/t-operative-348503/configmap-oldversionpoc:v14
+          image: gcr.io/t-operative-348503/configmap-oldversionpoc:rv1
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
           env:
            - name: SPRING_PROFILES_ACTIVE
+             value: "dev2"
+           - name: wcs.endpoint.livehost
              value: "dev2"
           envFrom:
            - secretRef:

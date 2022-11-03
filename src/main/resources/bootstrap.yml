@@ -16,6 +16,8 @@ spring:
         strategy: refresh
         #to autorefresh if any change in the secrets
         monitoringSecrets: true
+      secrets:
+        enable-api: true
 endpoints:  restart:    enabled: true
 polling:
    fallback:

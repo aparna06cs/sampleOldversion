@@ -50,9 +50,9 @@ public class ExtPollingConfigurationChangeDetetor  extends CustomChangeDetector{
 		if (properties.isMonitoringConfigMaps()) {
 			List<? extends MapPropertySource> currentConfigMapSources = findPropertySources(
 					ConfigMapPropertySource.class);
-			System.out.println("currentConfigMapSources"+currentConfigMapSources);
+			//System.out.println("currentConfigMapSources"+currentConfigMapSources);
 			if (!currentConfigMapSources.isEmpty()) {
-				System.out.println("currentConfigMapSources is not empty");
+				//System.out.println("currentConfigMapSources is not empty");
 				changedConfigMap = changed(
 						locateMapPropertySources(configMapPropertySourceLocator,
 								environment),
@@ -69,6 +69,7 @@ public class ExtPollingConfigurationChangeDetetor  extends CustomChangeDetector{
 						.locate(environment);
 				changedSecrets = changed(currentSecretSource, newSecretSource);
 			}
+			log.info("Entered in to the secrets monitoring");
 		}
 
 		if (changedConfigMap || changedSecrets) {

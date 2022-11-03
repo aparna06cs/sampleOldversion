@@ -19,7 +19,7 @@ spring:
       secrets:
         enabled: true
         namespace: dev2
-        #name: secrets-test
+        name: secrets-test
         enable-api: true
 endpoints:  restart:    enabled: true
 polling:

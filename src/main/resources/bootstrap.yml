@@ -14,6 +14,8 @@ spring:
         enabled: true
         mode: event
         strategy: refresh
+        #to autorefresh if any change in the secrets
+        monitoringSecrets: true
 endpoints:  restart:    enabled: true
 polling:
    fallback:

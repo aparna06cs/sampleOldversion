@@ -4,12 +4,12 @@ spring:
       config:
         enabled: true
         sources:
-          - namespace: ${SPRING.PROFILES.ACTIVE}
+          - namespace: dev2
             name: configmap-application-common
-          - namespace: ${SPRING.PROFILES.ACTIVE}
-            name: configmap-application-${SPRING.PROFILES.ACTIVE}
-          - namespace: ${SPRING.PROFILES.ACTIVE}
-            name: configmap-coreservices-${SPRING.PROFILES.ACTIVE}
+          - namespace: dev2
+            name: configmap-application-dev2
+          - namespace: dev2
+            name: configmap-coreservices-dev2
       reload:
         enabled: true
         mode: event

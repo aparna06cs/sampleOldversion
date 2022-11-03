@@ -17,6 +17,9 @@ spring:
         #to autorefresh if any change in the secrets
         monitoringSecrets: true
       secrets:
+        enabled: true
+        namespace: dev2
+        #name: secrets-test
         enable-api: true
 endpoints:  restart:    enabled: true
 polling:

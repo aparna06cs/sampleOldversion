@@ -33,5 +33,8 @@ spec:
             - containerPort: 8080
           env:
            - name: SPRING_PROFILES_ACTIVE
-             value: "dev"
+             value: "dev2"
+          envFrom:
+           - secretRef:
+              name: secrets-test
          
